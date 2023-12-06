@@ -1,7 +1,7 @@
 
 from pathlib import Path
 
-from .env import test_config
+from .env import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -20,7 +20,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.staticfiles',
-    'application'
+    'application',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -48,10 +49,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'dj32_example.wsgi.application'
+ASGI_APPLICATION = 'dj32_example.asgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
     'default': {
@@ -59,9 +58,26 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        # "LOCATION": f"redis://{config.SENTRY_HOST}/{config.REDIS_DB}",
+        "LOCATION": [f"redis://{item.split(':')[0], item.split(':')[1]}" for item in config.SENTRY_HOST.split(',')],
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.SentinelClient",
 
-# Password validation
-# https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
+            "CONNECTION_FACTORY": "django_redis.pool.SentinelConnectionFactory",
+            # "CONNECTION_POOL_CLASS": "redis.sentinel.SentinelConnectionPool",
+            "CONNECTION_POOL_KWARGS": {"max_connections": 20, "decode_responses": True, "service_name": config.SERVICE_NAME},
+
+            "SENTINELS": [(item.split(':')[0], item.split(':')[1])for item in config.SENTRY_HOST.split(',')],
+            "SENTINEL_KWARGS": {"password": config.SENTRY_PASSWORD},
+
+            "PASSWORD": config.REDIS_PASSWORD,
+        }
+    }
+}
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -79,9 +95,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/3.1/topics/i18n/
-
 LANGUAGE_CODE = 'zh-hans'
 
 TIME_ZONE = 'Asia/Shanghai'
@@ -92,8 +105,5 @@ USE_L10N = True
 
 USE_TZ = False
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'

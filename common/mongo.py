@@ -1,6 +1,6 @@
 from pymongo.mongo_client import MongoClient
 
-from dj32_example.env import test_config as config
+from dj32_example.env import config
 
 
 def create_connect_client() -> MongoClient:

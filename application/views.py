@@ -5,6 +5,7 @@ from bson.objectid import ObjectId
 from django.views.generic import View
 from django.http.request import HttpRequest
 
+from common.cache import cache
 from common.jsonresponse import JsonResponseExtra
 from application.filter import ApplicationFilter
 from application.models import ApplicationModel, BusinessModel, ProductModel
@@ -16,6 +17,7 @@ __all__ = ['ApplicationBaseView', 'ApplicationSingleView']
 class ApplicationBaseView(View):
 
     def get(self, request: HttpRequest) -> JsonResponseExtra:
+        cache.set('dj-test', 1133, 30)
         results = {'code': 200, 'msg': 'success', 'count': 0, 'data': {}}
         query_params = request.GET.dict()
         page = int(query_params.pop('page', 1))  # type: ignore
@@ -34,6 +36,7 @@ class ApplicationBaseView(View):
         data = ApplicationModel.extra_serializer_many(cursor=cursor, **extra_context)
         results['data'] = data
         results['count'] = count
+        print(cache.get('dj-test'))
         return JsonResponseExtra(data=results)
 
     def post(self, request: HttpRequest) -> JsonResponseExtra:

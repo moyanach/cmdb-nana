@@ -1,22 +1,41 @@
 
+import os
+from dotenv import load_dotenv
+
+
+load_dotenv()
+
+
 class TestEnv:
 
-    MONGO_USER = "cmdb_rd"
-    MONGO_PASSWORD = "CMdbsnt6N3line3r"
-    MONGO_HOST = "10.89.108.21:27037,10.89.108.19:27037,10.89.120.21:27037"
-    MONGO_DB = "ops_cmdb"
-    REPLICASET = "device_v3"
-    AUTH = 'admin'
+    MONGO_USER = os.getenv('MONGO_USER', '')
+    MONGO_PASSWORD = os.getenv('MONGO_PASSWORD', '')
+    MONGO_HOST = os.getenv('MONGO_HOST', '')
+    MONGO_DB = os.getenv('MONGO_DB', '')
+    REPLICASET = os.getenv('REPLICASET', '')
+    AUTH = os.getenv('AUTH', '')
+
+    SENTRY_HOST = os.getenv('SENTRY_HOST', '')
+    SENTRY_PASSWORD = os.getenv('SENTRY_PASSWORD', '')
+    REDIS_PASSWORD = os.getenv('REDIS_PASSWORD', '')
+    SERVICE_NAME = os.getenv('SERVICE_NAME', '')
+    REDIS_DB = os.getenv('REDIS_DB', 0)
 
 
 class ProdEnv:
 
-    MONGO_USER = "cmdb_rd"
-    MONGO_PASSWORD = "CMdbsnt6N3line3r"
-    MONGO_HOST = "10.89.108.21:27037,10.89.108.19:27037,10.89.120.21:27037"
-    MONGO_DB = "ops_cmdb"
-    REPLICASET = "device_v3"
-    AUTH = 'admin'
+    MONGO_USER = os.getenv('MONGO_USER', '')
+    MONGO_PASSWORD = os.getenv('MONGO_PASSWORD', '')
+    MONGO_HOST = os.getenv('MONGO_HOST', '')
+    MONGO_DB = os.getenv('MONGO_DB', '')
+    REPLICASET = os.getenv('REPLICASET', '')
+    AUTH = os.getenv('AUTH', '')
+
+    SENTRY_HOST = os.getenv('SENTRY_HOST', '')
+    SENTRY_PASSWORD = os.getenv('SENTRY_PASSWORD', '')
+    REDIS_PASSWORD = os.getenv('REDIS_PASSWORD', '')
+    SERVICE_NAME = os.getenv('SERVICE_NAME', '')
+    REDIS_DB = os.getenv('REDIS_DB', 0)
 
 
-test_config = TestEnv()
+config = TestEnv()

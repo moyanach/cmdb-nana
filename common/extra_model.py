@@ -3,7 +3,7 @@ from typing import Optional, Dict, List, Tuple, Any
 from pymongo.cursor import Cursor
 from pymongo.results import UpdateResult, DeleteResult, InsertOneResult, InsertManyResult
 
-from dj32_example.env import test_config as config
+from dj32_example.env import config
 from common.mongo import mongo_client
 from pydantic import BaseModel
 
