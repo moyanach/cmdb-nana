@@ -3,9 +3,11 @@ from typing import Optional, Literal
 
 from pydantic import Field
 from pymongo.cursor import Cursor
+from djongo.models import Model
 
 from common.extra_model import DataBaseExecExtra
 from application.enmu import AppLangEnmu, AppLevelEnmu, AppCostModeEnmu, AppTypeEnmu, DockerTypeEnmu
+
 
 
 class ApplicationModel(DataBaseExecExtra):

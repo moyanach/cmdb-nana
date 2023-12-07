@@ -2,6 +2,7 @@
 from pathlib import Path
 
 from .env import config
+from common.mongo import mongo_connect_str
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -54,7 +55,9 @@ ASGI_APPLICATION = 'dj32_example.asgi.application'
 
 DATABASES = {
     'default': {
-
+        'ENGINE': 'djongo',
+        'NAME': 'ops_cmdb',
+        'HOST': mongo_connect_str,
     }
 }
 
