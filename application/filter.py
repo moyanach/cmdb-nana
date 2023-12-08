@@ -2,7 +2,7 @@ from typing import Optional
 
 from pydantic import Field
 
-from common.filters import Filters
+from utils.filters import Filters
 
 
 class ApplicationFilter(Filters):

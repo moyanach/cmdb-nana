@@ -2,7 +2,7 @@
 from pathlib import Path
 
 from .env import config
-from common.mongo import mongo_connect_str
+from utils.mongo import mongo_connect_str
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -23,6 +23,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'application',
     'channels',
+    'project',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -52,12 +54,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'dj32_example.wsgi.application'
 ASGI_APPLICATION = 'dj32_example.asgi.application'
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'ops_cmdb',
-        'HOST': mongo_connect_str,
+        'CLIENT': {
+            'host': mongo_connect_str,
+        }
     }
 }
 

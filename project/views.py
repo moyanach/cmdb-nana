@@ -1,38 +1,40 @@
 # Create your views here.
-from typing_extensions import Self
+import json
 
+from django.views.generic.list import BaseListView
+from django.views.generic.base import View
 from django.utils.dateparse import parse_datetime
+from django.http.response import JsonResponse
+from django.core.serializers.json import Serializer
+
+from project.models import ApplicationModel
 
 
-def test_parse_datetime():
-    datetime_str = "2023-03-22 11:06:34"
-    datetime_obj = parse_datetime(datetime_str)
-    print(datetime_obj)
+__all__ = ('ProjectView', 'ProjectCreateView')
 
 
-class TestClassGetAttr:
+class ProjectView(BaseListView):
 
-    def __init__(self) -> None:
-        pass
+    model = ApplicationModel
+    queryset = ApplicationModel.objects.all()
 
-    def voice(self, voice: str):
-        print(f'voice: {voice}')
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get('size', 10)
 
-
-class TestMagicClass:
-
-    def __new__(cls, *args, **kwargs) -> Self:
-        print('__new__')
-        return super().__new__(cls)
-
-    def __init__(self) -> None:
-        print(f'__init__, dir(self): {dir(self)}')
-
-    def __getattr__(self, name):
-        aa = TestClassGetAttr()
-        return getattr(aa, name)
+    def render_to_response(self, context):
+        results = {'code': 200, 'msg': 'success', "data": []}
+        page = context.get('object_list', [])
+        data = Serializer().serialize(page)
+        results['data'] = data
+        return JsonResponse(data=results)
 
 
-if __name__ == "__main__":
-    magic = TestMagicClass()
-    print(magic.voice('ww'))
+class ProjectCreateView(View):
+
+    def post(self, request):
+        data = json.loads(request.body)
+        results = {'code': 200, 'msg': 'success', "data": []}
+        application_obj = ApplicationModel(**data)
+        application_obj.full_clean()
+        application_obj.save()
+        return JsonResponse(data=results)
