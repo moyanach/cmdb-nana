@@ -1,8 +1,10 @@
 
 from pathlib import Path
 
+
 from .env import config
-from utils.mongo import mongo_connect_str
+# from utils.mongo import mongo_connect_str
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -56,13 +58,24 @@ ASGI_APPLICATION = 'dj32_example.asgi.application'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'djongo',
+#         'NAME': 'ops_cmdb',
+#         'CLIENT': {
+#             'host': mongo_connect_str,
+#         }
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'ops_cmdb',
-        'CLIENT': {
-            'host': mongo_connect_str,
-        }
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': config.MYSQL_HOST,
+        'PORT': config.MYSQL_PORT,          # 监听端口
+        'NAME': config.MYSQL_DB,            # 数据库名称【需要提前创建数据库】
+        'USER': config.MYSQL_USER,          # 数据库用户名【默认是root】
+        'PASSWORD': config.MYSQL_PWD,       # 上面数据库用户的密码
     }
 }
 

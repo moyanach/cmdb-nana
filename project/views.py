@@ -24,7 +24,7 @@ class ProjectView(BaseListView):
     def render_to_response(self, context):
         results = {'code': 200, 'msg': 'success', "data": []}
         page = context.get('object_list', [])
-        data = Serializer().serialize(page)
+        data = Serializer().serialize(page).getvalue()
         results['data'] = data
         return JsonResponse(data=results)
 
