@@ -7,7 +7,7 @@ import django
 curPath = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 sys.path.append(curPath)
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dj32_example.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Kael.settings')
 django.setup()
 
 from utils.sync import SyncBaseInfo  # noqa

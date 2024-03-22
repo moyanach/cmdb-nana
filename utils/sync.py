@@ -2,7 +2,7 @@ from typing import Any
 
 import requests
 
-from kaer.env import config
+from Kael.config import config
 
 
 class SyncBaseInfo:
