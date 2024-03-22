@@ -2,7 +2,7 @@ from typing import Any
 
 import requests
 
-from dj32_example.env import config
+from kaer.env import config
 
 
 class SyncBaseInfo:

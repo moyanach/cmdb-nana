@@ -1,5 +1,3 @@
-from bson.objectid import ObjectId
-
 from django.http.response import JsonResponse
 from django.core.serializers.json import DjangoJSONEncoder
 
@@ -10,10 +8,7 @@ class DjangoJSONEncoderExtra(DjangoJSONEncoder):
     """
 
     def default(self, o):
-        if isinstance(o, ObjectId):
-            return str(o)
-        else:
-            return super().default(o)
+        return super().default(o)
 
 
 class JsonResponseExtra(JsonResponse):

@@ -2,7 +2,7 @@ from django.db import models
 
 from users.models import UsersModel
 from project.constant import *
-from utils.func_tools import generate_instance_id
+from utils.tools import generate_instance_id
 
 
 class BusinessesModel(models.Model):

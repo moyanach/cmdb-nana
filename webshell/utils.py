@@ -1,4 +1,3 @@
-from typing import Tuple, Optional
 from threading import Thread
 
 import kubernetes.client
@@ -11,8 +10,9 @@ TEST_128 = {
     "K8S_HOST": "https://api-server-128.youkun.cn:9443",
     "K8S_ADMIN_TOKEN": "xxxx",
     "K8S_TOKEN": "xxxxx",
-    "K8S_TOKEN_READ": "xxxxx"
+    "K8S_TOKEN_READ": "xxxxx",
 }
+
 
 class K8SStreamThread(Thread):
     def __init__(self, websocket, container_stream):
@@ -33,7 +33,6 @@ class K8SStreamThread(Thread):
 
 
 class K8SApiTools(Thread):
-
     def __init__(self, rw: bool = False, admin: bool = False, cluster: str = "152"):
         self.admin = admin
         self.cluster = cluster
@@ -69,12 +68,12 @@ class K8SApiTools(Thread):
                 raise ApiException()
             return core_api
 
-    def create_attatch_pod_exec_stream(self,
-                                       namespace: str = "dcp",
-                                       pod_name: str = "app-guard-admin-api-7cc7b8f97f-hzlw9",
-                                       container: str = "app-guard-admin-api",
-                                       ) -> WSClient:
-
+    def create_attatch_pod_exec_stream(
+        self,
+        namespace: str = "dcp",
+        pod_name: str = "app-guard-admin-api-7cc7b8f97f-hzlw9",
+        container: str = "app-guard-admin-api",
+    ) -> WSClient:
         core_api = self.get_core_api()
 
         resp = None
@@ -88,21 +87,23 @@ class K8SApiTools(Thread):
                 "/bin/sh",
                 "-c",
                 # 'export LINES=30; export COLUMNS=80; '
-                'TERM=xterm-256color; export TERM; [ -x /bin/bash ] '
-                '&& ([ -x /usr/bin/script ] '
+                "TERM=xterm-256color; export TERM; [ -x /bin/bash ] "
+                "&& ([ -x /usr/bin/script ] "
                 '&& /usr/bin/script -q -c "/bin/bash" /dev/null || exec /bin/bash) '
-                '|| exec /bin/sh']
-            resp = stream(core_api.connect_get_namespaced_pod_exec,
-                          pod_name,
-                          namespace,
-                          container=container,
-                          command=exec_command,
-                          stderr=True,
-                          stdin=True,
-                          stdout=True,
-                          tty=True,
-                          _preload_content=False
-                          )
+                "|| exec /bin/sh",
+            ]
+            resp = stream(
+                core_api.connect_get_namespaced_pod_exec,
+                pod_name,
+                namespace,
+                container=container,
+                command=exec_command,
+                stderr=True,
+                stdin=True,
+                stdout=True,
+                tty=True,
+                _preload_content=False,
+            )
         except ApiException as err:
             raise InterruptedError(str(err))
         return resp

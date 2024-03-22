@@ -1,5 +1,5 @@
 """
-ASGI config for dj32_example project.
+ASGI config for kaer project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -9,10 +9,10 @@ https://docs.djangoproject.com/en/3.1/howto/deployment/asgi/
 
 import os
 
-from channels.http import AsgiHandler
-from channels.security.websocket import AllowedHostsOriginValidator
+# from channels.http import AsgiHandler
+# from channels.security.websocket import AllowedHostsOriginValidator
 from channels.routing import ProtocolTypeRouter, URLRouter
-from channels.auth import AuthMiddlewareStack
+# from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter
 from django.core.asgi import get_asgi_application
 
